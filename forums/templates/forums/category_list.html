@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}List Of Categories{% endblock %}
+
+{% block navbar %}
+    {% include 'forums/components/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-2">
+        <div class="row mt-4">
+            <div class="col-md-2">
+                <a href="{% url 'forums:category_create' %}" class="btn btn-primary">New Category</a>
+            </div>
+            <div class="col-md-10">
+                 <form method="get" action="{% url 'forums:category_search' %}">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search by category name" name="name">
+                        <input type="text" class="form-control" placeholder="Search by username" name="user__username">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="submit">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <small class="text-muted">There are {{ total }} categories</small>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-12">
+                <div class="list-group">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="bg-dark text-white">
+                                <th>Category</th>
+                                <th>By</th>
+                                <th>Topics</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for category in categories %}
+                            <tr>
+                                <td>
+                                    <strong>{{ category.name }}</strong><br>
+                                    <small>{{ category.description|truncatewords:10 }}</small>
+                                </td>
+                                <td>{{ category.user }}</td>
+                                <td>{{ category.total }}</td>
+                                <td>
+                                    {% if request.user == category.user %}
+                                        <a class="btn btn-outline-dark" href="{% url 'forums:category_edit' category.slug %}">edit</a>
+                                    {% endif %}
+                                    <a href="{% url 'forums:topic_list' category.slug %}" class="btn btn-primary">view</a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">
+                                Data not available...
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-12">
+                {% include 'forums/components/pagination.html' with objs=categories %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

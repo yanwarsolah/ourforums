@@ -1,0 +1,15 @@
+<form method="get" action="{% url 'forums:topic_search' category.slug %}">
+    <div class="input-group mb-3">
+        <input type="text"
+               class="form-control"
+               placeholder="Search by subject"
+               name="subject">
+        <input type="text"
+               class="form-control"
+               placeholder="Search by author of topic"
+               name="author__username">
+        <div class="input-group-append">
+            <button class="btn btn-outline-primary" type="submit">Search</button>
+        </div>
+    </div>
+    </form>

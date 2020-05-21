@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ topic.subject }}{% endblock %}
+
+{% block navbar %}
+    {% include 'forums/components/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'forums:category_list' %}">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'forums:topic_list' category.slug %}">{{ category.name }}</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ topic.subject }}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <img class="card-img-top" src="{{ topic.image.url }}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ topic.subject }}</h5>
+                        <p class="card-text">
+                            {{ topic.body }}
+                        </p>
+                        <p class="card-text">
+                            <small class="text-muted">By {{ topic.author }}, {{ topic.created }}</small>
+                        </p>
+                        {% if request.user == topic.author %}
+                        <a href="{% url 'forums:topic_edit' category.slug topic.slug %}" class="btn btn-outline-secondary">Edit</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <h5>New Discuss</h5>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+                <div class="mt-4">
+                    <h5>{{ total }} Discuss</h5>
+                    <div class="list-group">
+                        {% for discuss in discusses %}
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ discuss.user }}</h5>
+                                <small>{{ discuss.created }}</small>
+                            </div>
+                            <p class="mb-1">{{ discuss.message }}</p>
+                        </a>
+                        {% empty %}
+                        <a href="#" class="list-group-item list-group-item-action">
+                            Discuss not available...
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="mt-4">
+                    {% include 'forums/components/pagination.html' with objs=discusses %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

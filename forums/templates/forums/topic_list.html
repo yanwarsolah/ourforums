@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Topics{% endblock %}
+
+{% block navbar %}
+    {% include 'forums/components/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'forums:category_list' %}">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="#">{{ category.name }}</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Topics</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-md-2">
+                <a href="{% url 'forums:topic_create' category.slug %}" class="btn btn-primary">New Topic</a>
+            </div>
+            <div class="col-md-10">
+                {% include 'forums/components/topic_search_component.html' with category=category %}
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <small class="text-muted">There are {{ total }} topics</small>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-md-12 card-columns">
+                {% for topic in topics %}
+                <div class="card border-secondary">
+                    <img class="card-img-top" src="{{ topic.image.url }}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ topic.subject }}</h5>
+                        <p class="card-text">
+                            {{ topic.body|truncatewords:10 }}
+                        </p>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                By {{ topic.author }}, {{ topic.created }}
+                                {% if topic.total_discuss > 0 %}
+                                <span class="badge badge-success">{{ topic.total_discuss }} Discuss</span>
+                                {% else %}
+                                <span class="badge badge-warning">No Discuss</span>
+                                {% endif %}
+                            </small>
+                        </p>
+                        <a href="{% url 'forums:topic_detail' category.slug topic.slug %}" class="btn btn-primary">
+                            Open Discuss
+                        </a>
+                        {% if request.user == topic.author %}
+                        <a href="{% url 'forums:topic_edit' category.slug topic.slug %}" class="btn btn-outline-secondary">Edit</a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text">
+                            Topic not available!
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-12">
+                {% include 'forums/components/pagination.html' with objs=topics %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

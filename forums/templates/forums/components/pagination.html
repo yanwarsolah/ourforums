@@ -1,0 +1,25 @@
+{% if objs.has_other_pages %}
+    <nav aria-label="...">
+        <ul class="pagination">
+            {% if objs.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ objs.previous_page_number }}">Previous</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+            {% endif %}
+            {% if objs.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ objs.next_page_number }}">Next</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+

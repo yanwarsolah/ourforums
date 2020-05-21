@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'vendors/bootstrap/css/bootstrap.min.css' %}">
+    <title>
+        {% block title %}{% endblock %}
+    </title>
+</head>
+<body>
+    {% block navbar %}{% endblock %}
+    {% block content %}{% endblock %}
+    <script src="{% static 'vendors/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendors/bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

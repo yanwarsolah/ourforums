@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Need Sign In{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card text-center text-white bg-info">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Need Sign In
+                        </h5>
+                        <p class="card-text">
+                            You need to sign in to access the page.
+                            Click the following button to sign in.
+                        </p>
+                        <a href="{% url 'accounts:signin' %}" class="btn btn-light">Sign In Now!</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+{% endblock %}

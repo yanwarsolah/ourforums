@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block navbar %}
+    {% include 'forums/components/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4 mb-4">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Sign Up</h5>
+                        <form method="post">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button type="submit" class="btn btn-block btn-primary">Sign Up</button>
+                        </form>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Do you already have an account? <a href="#">Sign In</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
