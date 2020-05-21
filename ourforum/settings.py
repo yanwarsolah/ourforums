@@ -142,7 +142,7 @@ LOGIN_REDIRECT_URL = 'forums:category_list'
 
 # Email config
 EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = '89fec0d59f4074'
-EMAIL_HOST_PASSWORD = '75de53b729aacc'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = '2525'
 EMAIL_USE_TLS = True
